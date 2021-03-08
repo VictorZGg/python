@@ -48,10 +48,11 @@ def getContent(url_1, kv, page_no, end_date):
                 pub_time = j[3].text
                 last_time = j[4].text
                 k = i.find('span').find_all('a')
-                sec = k[0].text
+                sec_jug = bool(url_1[-2] == '3')
+                sec = [k[0].text, ''][sec_jug]
                 # sec_ref = 'https://guba.eastmoney.com/' + k[0].get('href')
-                title = k[1].text
-                ref = 'https://guba.eastmoney.com/' + k[1].get('href')
+                title = k[1-sec_jug].text
+                ref = 'https://guba.eastmoney.com/' + k[1-sec_jug].get('href')
                 table_i = [sec, name, title, read, comments, pub_time, last_time, ref]
                 table.loc[len(table)] = table_i
                 print (title)
@@ -67,10 +68,15 @@ def getContent(url_1, kv, page_no, end_date):
 
 
 if __name__ == '__main__':
-    url_1 = 'https://guba.eastmoney.com/default,0_'
+    # url_1 = 'https://guba.eastmoney.com/default,0_' # 全部
+    # url_1 = 'https://guba.eastmoney.com/default,99_' # 热门
+    # url_1 = 'https://guba.eastmoney.com/default,1_' # 资讯
+    # url_1 = 'https://guba.eastmoney.com/default,2_' # 研报
+    url_1 = 'https://guba.eastmoney.com/default,3_' # 公告
     kv = {'user-agent': 'Mozilla/5.0',
           'Connection':'close'} 
-    page_no = 100 # 设置查多少页
+    page_no = 20 # 设置查多少页
+    # n = 0
     end_date = '01-01'# 设置最早日期
     ###################### 获取文件列表 ######################
     x = getContent(url_1, kv, page_no, end_date)
@@ -122,10 +128,4 @@ if __name__ == '__main__':
     
 
     ###################### 全部导出至excel文件 ######################
-    x.to_excel('D:\\python\work\\\web\\eastmoney_heat.xlsx',index=False,header=True)
-    
-
-    
-        
-    
-        
+    x.to_excel('D:\\tools\\python\\python\\web\\eastmoney_heat.xlsx',index=False,header=True)
