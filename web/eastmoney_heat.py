@@ -128,4 +128,9 @@ if __name__ == '__main__':
     
 
     ###################### 全部导出至excel文件 ######################
-    x.to_excel('D:\\tools\\python\\python\\web\\eastmoney_heat.xlsx',index=False,header=True)
+path = 'D:\\tools\\python\\python\\web\\eastmoney_heat.xlsx'
+x.to_excel(path,index=False,header=True)
+
+import os
+os.system(path)
+
