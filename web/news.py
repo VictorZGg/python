@@ -267,8 +267,8 @@ for i in t3:
     except:
         pass
 ###################### 全部导出至excel文件 ######################
-path('D:\\tools\\python\\python\\web\\news.xlsx',index=False,header=True)
-x.to_excel(path,index=False,header=True)
+path = 'D:\\tools\\python\\python\\web\\news.xlsx'
+table.to_excel(path,index=False,header=True)
 
 import os
 os.system(path) 

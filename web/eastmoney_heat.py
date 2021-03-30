@@ -68,11 +68,11 @@ def getContent(url_1, kv, page_no, end_date):
 
 
 if __name__ == '__main__':
-    # url_1 = 'https://guba.eastmoney.com/default,0_' # 全部
+    url_1 = 'https://guba.eastmoney.com/default,0_' # 全部
     # url_1 = 'https://guba.eastmoney.com/default,99_' # 热门
     # url_1 = 'https://guba.eastmoney.com/default,1_' # 资讯
     # url_1 = 'https://guba.eastmoney.com/default,2_' # 研报
-    url_1 = 'https://guba.eastmoney.com/default,3_' # 公告
+    # url_1 = 'https://guba.eastmoney.com/default,3_' # 公告
     kv = {'user-agent': 'Mozilla/5.0',
           'Connection':'close'} 
     page_no = 20 # 设置查多少页
