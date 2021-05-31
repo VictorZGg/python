@@ -4,11 +4,11 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-import re
-import time
-import datetime as dt
+# import re
+# import time
+# import datetime as dt
 import urllib3
-from selenium import webdriver
+# from selenium import webdriver
 # import xlsxwriter
 
 
@@ -231,6 +231,7 @@ for i in t2:
         pass
 
 # CNBC新闻
+'''
 url_list = ['CNBC', 'https://www.cnbc.com/world/?region=world']
 web, url = url_list
 print ('======='+web+'======')
@@ -266,6 +267,7 @@ for i in t3:
         n += 1
     except:
         pass
+'''
 ###################### 全部导出至excel文件 ######################
 path = 'D:\\tools\\python\\python\\web\\news.xlsx'
 table.to_excel(path,index=False,header=True)

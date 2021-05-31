@@ -76,9 +76,86 @@ if __name__ == '__main__':
           'Connection':'close'}
     end_year = 2021 # 设置到哪一年为止
     page_no = 10 # 设置查多少页
+    
     ###################### 获取文件列表 ######################
     x = getContent(url_1, kv, end_year, page_no)
-
+    
+    ###################### 提取当事人、违法事实、处罚信息 ######################
+    keyword_y_list = ['男','女','住址','住所','有限公司','事务所']
+    keyword_n_list = ['规定','调查','审理','事实','申辩']
+    table = pd.DataFrame(columns=['发布机构','发文日期','名称','文号','当事人','违法事实','处罚信息'])
+    # i = 0
+    for i in range(len(x)):
+        x1 = x['内容'][i]
+        patter1 = re.compile('违法事实.*?\n')
+        try:
+            s = patter1.search(x1).group()
+        except:
+            pass
+        split_1 = x1.find(s)
+        split_2 = x1.find('决定：')
+        
+        print ('==================当事人==================')
+        x2 = x1[:split_1]
+        x2 = x2.split('\n')
+        person_list = []
+        for j1 in x2:
+            try:
+                judge1 = any(w in j1 and w for w in keyword_y_list)
+                judge2 = any(w in j1 and w for w in keyword_n_list)
+                if judge1 and not judge2:
+                    print (j1)
+                    person_list.append(j1)
+            except:
+                person_list.append('')
+       
+        print ('==================违法事实==================')
+        x3 = x1[split_1:split_2]
+        fact_list = []
+        if any(k in x3 and k for k in ['一、','二、']):
+            x3 = x3.split('\n')
+            # j2 = x3[0]
+            for j2 in x3:
+                try:
+                    if (j2[0] in ['一','二','三','四','五','（']) or (j2[1] == '.'):
+                        print (j2)
+                        fact_list.append(j2)
+                except:
+                    fact_list.append('')
+        else:
+            fact_list.append(x3)
+        
+        print ('==================处罚信息==================')
+        x4 = x1[split_2:]
+        penalty_list = []
+        if any(k in x4 and k for k in ['一、','二、']):
+            x4 = x4.split('\n')
+            # j2 = x3[0]
+            for j3 in x4:
+                try:
+                    if (j3[0] in ['一','二','三','四','五','（']) or (j3[1] == '.'):
+                        print (j3)
+                        penalty_list.append(j3)
+                except:
+                    penalty_list.append('')
+        else:
+            penalty_list.append(x4)
+       
+        person = '\n'.join(person_list)
+        fact = '\n'.join(fact_list)
+        penalty = '\n'.join(penalty_list)
+        
+        table_i = [x.iloc[i,0],x.iloc[i,1],x.iloc[i,2],x.iloc[i,3],person,fact,penalty]
+        table.loc[len(table)] = table_i    
+    
+    ###################### 全部导出至excel文件 ######################
+    path = 'D:\\tools\\python\\python\\zjh\\penalty_list.xlsx'
+    table.to_excel(path,index=False,header=True)
+    
+    import os
+    os.system(path)        
+    
+    
     ###################### 按照关键字导出至word文件 ######################
     from docx import Document
     from docx.oxml.ns import qn
