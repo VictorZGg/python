@@ -11,7 +11,6 @@ import time
 import os
 
 def get_h_FinancialReport(sec_list):  
-    i = 0
     for i in range(len(sec_list)):
         sec_id = sec_list['sec_cde'][i]
         sec_id = ('000000'+str(sec_id))[-6:]
