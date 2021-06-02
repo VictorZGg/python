@@ -95,7 +95,7 @@ if __name__ == '__main__':
     url = "https://guba.eastmoney.com/"
     page_no = 10
     kv = {'user-agent': 'Mozilla/5.0', 'Connection':'close'} 
-    key_word ='许亚飞'
+    key_word = input('请输入搜索内容：')
     x = eastmoneySearch(url, page_no, kv, key_word)
 
     ###################### 全部导出至excel文件 ######################
