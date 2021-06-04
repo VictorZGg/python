@@ -12,15 +12,29 @@ import random
 from web.getSoup import getSoup
 
 # n = 0
-def get_liepin(base_url, agents, page_no):
+def get_liepin_byCompany(base_url, agents, company_list):
     table = pd.DataFrame(columns = ['职位', '薪水', '最低', '最高', '地区', '学历', '工作年限', '公司', '公司描述', '备注', '网址'])
-    for n in range(page_no-1):
-        m = str(n+1)
-        print ('============第'+m+'页============')
-        url = base_url+m
-        header_1 = {'user-agent': agents[random.randint(0,len(agents))], 'Connection':'keep-alive'} 
-        soup = getSoup(url, header_1)
-        t = soup.find_all('div', {'class': 'sojob-item-main clearfix'})
+    for i in company_list.keys():
+        print ('============'+i+'============')
+        n = 1
+        while True:
+            # i = '嘉实基金'
+            url = base_url+company_list[i]+'/pn%s/'%n
+            header_1 = {'user-agent': agents[random.randint(0,len(agents))], 'Connection':'keep-alive'} 
+            soup = getSoup(url, header_1)
+            
+            t1 = soup.find('div', {'class': 'name-right'})
+            comp_name = t1.find('span', {'data-selector': 'company-name'}).text.strip()
+            comp_memo = t1.p.text.strip()
+            
+            t2 = soup.find('div', {'data-selector': 'pager-box'})
+            t2_1 = t2.ul.find_all('li')
+            for j in t2_1:
+                # j = t2_1[0]
+                job_title = j.find('a', {'.get_text().strip()
+                
+                
+            
         # i = t[0]
         for i in t:
             try:
@@ -57,8 +71,17 @@ def get_liepin(base_url, agents, page_no):
 
     
 if __name__ == '__main__':
-    base_url = 'https://www.liepin.com/zhaopin/?compkind=&dqs=&pubTime=&pageSize=40&salary=&compTag=&sortFlag=&degradeFlag=0&compIds=&subIndustry=&jobKind=&industries=150&compscale=&key=&siTag=1B2M2Y8AsgTpgAmY7PhCfg~Al0RgotvGQ-kRA59YliAuQ&d_sfrom=search_fp_nvbar&d_ckId=dcf5ef187f392d593bf7a16c99018d69&d_curPage=0&d_pageSize=40&d_headId=a9d26b202cd5a4f030bfe02bf5f5ccd5&curPage='
-    page_no = 10
+    base_url = 'https://www.liepin.com/company-jobs/'
+    company_list = {'嘉实基金': '8231620',
+                     '国金证券': '4750556',
+                     '安信证券': '8135788',
+                     '中信证券': '9616987',
+                     '天风证券': '6907566',
+                     '中金公司': '4580900'}
+    
+    
+    
+    
     agents = ["Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
     "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
     "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0",
