@@ -15,21 +15,21 @@ def get_h_FinancialReport(sec_list):
         sec_id = sec_list['sec_cde'][i]
         sec_id = ('000000'+str(sec_id))[-6:]
         sec_abbr = sec_list['sec_name'][i]
-        path = 'D:\\tools\\python\\python\\wind\\financial_reports\\'+sec_id+'_lrb.csv'
+        path = 'D:\\tools\\python\\python\\wind\\financial_reports\\'+sec_id+'_xjllb.csv'
         if os.path.exists(path):
             print ('存在重名文件，跳过证券：%s'%sec_id)
             pass
         else:
             # sec_abbr = str(sec_list['sec_name'][i])
-            url = 'http://quotes.money.163.com/service/lrb_'+sec_id+'.html'
+            url = 'http://quotes.money.163.com/service/xjllb_'+sec_id+'.html'
             while True:
                 try:
                     content = urllib.request.urlopen(url,timeout=2).read()
                     print(sec_id+'  |  '+sec_abbr)
                     print('--------------')
-                    with open('D:\\tools\\python\\python\\wind\\financial_reports\\'+sec_id+'_lrb.csv','wb') as f:
+                    with open('D:\\tools\\python\\python\\wind\\financial_reports\\'+sec_id+'_xjllb.csv','wb') as f:
                         f.write(content)
-                    time.sleep(1)
+                    time.sleep(0.5)
                     break
                 except Exception as e:
                     if str(e) =='HTTP Error 404: Not Found':
