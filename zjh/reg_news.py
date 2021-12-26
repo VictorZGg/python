@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import time
-import datetime as dt
+# import datetime as dt
 import urllib3
 # import xlsxwriter
 urllib3.disable_warnings()
@@ -166,14 +166,14 @@ for i in t2:
 type_dict = {'证监会令': 12,
              '证监会公告': 13,
              # '政务信息': 14,
-             '行政许可进度': 5,
-             '发审委公告': 6,
-             '行政许可结果': 7,
+             '证监会行政许可进度': 5,
+             '证监会发审委公告': 6,
+             '证监会行政许可结果': 7,
              ###上面需要减掉最后一个add-more
-             '辖区监管动态': 2,
-             '政务信息': 3,
-             '监管指引': 4,
-             '征求意见': 8
+             '证监会辖区监管动态': 2,
+             '证监会政务信息': 3,
+             '证监会监管指引': 4,
+             '证监会征求意见': 8
              }
 
 for zjh_type, zjh_id in type_dict.items():
@@ -221,6 +221,39 @@ for i in t:
     report_i = ['中金所动态', content, pub_date, ref]
     report.loc[len(report)] = report_i
 
+######### 上期所
+url = 'http://www.shfe.com.cn/news/notice/'
+soup = getSoup(url, head)
+t = soup.find('div', {'class': 'p4 lawbox'}).find('ul').find_all('li')
+for i in t:
+    content = i.a['title']
+    ref = 'http://www.shfe.com.cn' + i.a['href']
+    pub_date = i.span.text[1:-1]
+    report_i = ['上期所动态', content, pub_date, ref]
+    report.loc[len(report)] = report_i
+
+######### 大商所
+url = 'http://www.dce.com.cn/dalianshangpin/xwzx93/jysxw/index.html'
+soup = getSoup(url, head)
+t = soup.find('ul', {'class': 'list_tpye06'}).find_all('li')
+for i in t:
+    content = i.a['title']
+    ref = 'http://www.dce.com.cn' + i.a['href']
+    pub_date = i.span.text
+    report_i = ['大商所动态', content, pub_date, ref]
+    report.loc[len(report)] = report_i
+
+######### 整商所
+url = 'http://www.czce.com.cn/'
+soup = getSoup(url, head)
+t = soup.find('div', {'class': 'notice b1px col-md-4 col-xs-12'}).find('div', {'class': 'slideTxtBox'}).find('div', {'class': 'bd'}).ul.find_all('li')
+for i in t:
+    content = i.find('div', {'class': 'tit'}).a.text
+    ref = 'http://www.czce.com.cn' + i.find('div', {'class': 'tit'}).a['href']
+    pub_date = i.find('div', {'class': 'time'}).text
+    report_i = ['郑商所动态', content, pub_date, ref]
+    report.loc[len(report)] = report_i
+
 ######### 中国结算
 url = 'http://www.chinaclear.cn/zdjs/xtzgg/center_flist.shtml'
 soup = getSoup(url, head)
@@ -255,6 +288,8 @@ for i in range(len(t1)):
     pub_date = t2[i].text
     report_i = ['证券业协会动态', content, pub_date, ref]
     report.loc[len(report)] = report_i
+
+report = report.sort_values(by="日期" , ascending=False)
 
 
 ###################### 全部导出至excel文件 ######################
