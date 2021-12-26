@@ -21,7 +21,7 @@ def eastmoneySearch(url, page_no, kv, key_word):
     # 在运行的时候不弹出浏览器窗口
     # opt.set_headless()
     # 获取driver对象
-    driver = webdriver.Chrome(chrome_options = opt)
+    driver = webdriver.Chrome(chrome_options = opt, executable_path='C:\Program Files\Google\Chrome\Application\chromedriver.exe')
     # 打开登录页面
     driver.get(url)
     # 设置等待时间为10s，超时则会报错

@@ -40,6 +40,7 @@ def getContent(url_1, kv, page_no):
     table = pd.DataFrame(columns=['用户', '微博', '赞', '转发', '评论', '时间', '来源'])
     for n in range(page_no):
         print ('==========='+'第'+str(n+1)+'页===========')
+        # n = 0
         m = str(n+1)
         url = url_1 + str(m)
         soup = getSoup(url, kv)
@@ -77,7 +78,7 @@ def getContent(url_1, kv, page_no):
 
 
 if __name__ == '__main__':
-    cookie = '_T_WM=12085690677; SUB=_2A25NpxOvDeRhGedH6lsT8yjPyz6IHXVva73nrDV6PUJbktB-LRLskW1NUNsoCpNoauJBwlVz5liNLOLGe3LikQvZ; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WWWX2ah3lQN.wLSG4GXG0Qh5NHD95Qp1K24eoece05EWs4DqcjLi--ci-88iKnNi--Xi-zRiKy2i--Ri-zfi-zNi--NiKLWiKnXgntt; SSOLoginState=1621320703; WEIBOCN_FROM=1110105030; MLOGIN=1; XSRF-TOKEN=6a7182; M_WEIBOCN_PARAMS=luicode=10000011&lfid=1076037293883188&fid=1005057293883188&uicode=10000011'
+    cookie = '_T_WM=3c3324111a8284852b0b80bec2daaee7; SCF=Aobrb8szLBiYIrOPnyy0vlLzTV1eAo__d39fcIwrs7LBuWUu57u9F5z8UaFldNCKv8VfkCfG1pJd7ejmvBkJ-Ic.; SUB=_2A25NvDocDeRhGedH6lsT8yjPyz6IHXVvX0ZUrDV6PUJbktAKLXX4kW1NUNsoCiltIOjWJFycfv2i_SzcV3SphNT3; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WWWX2ah3lQN.wLSG4GXG0Qh5NHD95Qp1K24eoece05EWs4DqcjLi--ci-88iKnNi--Xi-zRiKy2i--Ri-zfi-zNi--NiKLWiKnXgntt'
     url_1 = 'https://weibo.cn/u/7293883188?page='
     # url_1 = 'https://weibo.cn/u/1642088277?page='
     kv = {'user-agent': 'Mozilla/5.0',
